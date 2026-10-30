@@ -2,20 +2,19 @@ import type { ProviderDriverKind, ProviderReplayTranscript } from "@t3tools/cont
 
 import { buildRuntimeInstructions } from "@t3tools/provider-core/server/runtimeInstructions";
 
+const RUNTIME_HARNESS_BY_DRIVER: Partial<Record<string, string>> = {
+  cursor: "Cursor",
+  grok: "Grok",
+  acpRegistry: "acpRegistry",
+  fx: "fx",
+  omp: "Oh My Pi",
+};
+
 export function materializeReplayTranscriptRuntimeInstructions(
   transcript: ProviderReplayTranscript,
   runtime: { readonly driver: ProviderDriverKind; readonly model: string },
 ): ProviderReplayTranscript {
-  const harness =
-    runtime.driver === "cursor"
-      ? "Cursor"
-      : runtime.driver === "grok"
-        ? "Grok"
-        : runtime.driver === "acpRegistry"
-          ? "acpRegistry"
-          : runtime.driver === "fx"
-            ? "fx"
-            : undefined;
+  const harness = RUNTIME_HARNESS_BY_DRIVER[runtime.driver];
   if (harness === undefined) return transcript;
   const instructions = buildRuntimeInstructions({ harness, model: runtime.model });
 

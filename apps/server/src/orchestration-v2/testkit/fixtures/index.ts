@@ -203,6 +203,10 @@ import { turnInterruptMidToolInput } from "./turn_interrupt_mid_tool/input.ts";
 import { assertTurnInterruptMidToolPiOutput } from "./turn_interrupt_mid_tool/pi_output.ts";
 import { assertTurnInterruptRestartClaudeOutput } from "./turn_interrupt_restart/claude_output.ts";
 import { turnInterruptRestartInput } from "./turn_interrupt_restart/input.ts";
+import { OMP_DENIED_TARGET, ompApprovalsInput } from "./omp_approvals/input.ts";
+import { assertOmpApprovalsOutput } from "./omp_approvals/omp_output.ts";
+import { ompAskInput } from "./omp_ask/input.ts";
+import { assertOmpAskOutput } from "./omp_ask/omp_output.ts";
 import { assertClaudeWebSearchOutput } from "./web_search/claude_output.ts";
 import { assertWebSearchOutput } from "./web_search/codex_output.ts";
 import { webSearchInput } from "./web_search/input.ts";
@@ -212,6 +216,7 @@ import {
   CODEX_MODEL_SELECTION,
   CURSOR_MODEL_SELECTION,
   FX_MODEL_SELECTION,
+  OMP_MODEL_SELECTION,
   GROK_MODEL_SELECTION,
   MUSE_MODEL_SELECTION,
   OPENCODE_MODEL_SELECTION,
@@ -649,6 +654,12 @@ export const ORCHESTRATOR_REPLAY_FIXTURES: ReadonlyArray<OrchestratorReplayFixtu
         driver: ProviderDriverKind.make("fx"),
         transcriptFile: new URL("./simple/fx_transcript.ndjson", import.meta.url),
         modelSelection: FX_MODEL_SELECTION,
+        assertOutput: assertSimpleOutput,
+      },
+      {
+        driver: ProviderDriverKind.make("omp"),
+        transcriptFile: new URL("./simple/omp_transcript.ndjson", import.meta.url),
+        modelSelection: OMP_MODEL_SELECTION,
         assertOutput: assertSimpleOutput,
       },
       {
@@ -1256,6 +1267,12 @@ export const ORCHESTRATOR_REPLAY_FIXTURES: ReadonlyArray<OrchestratorReplayFixtu
         assertOutput: assertMultiTurnOutput,
       },
       {
+        driver: ProviderDriverKind.make("omp"),
+        transcriptFile: new URL("./multi_turn/omp_transcript.ndjson", import.meta.url),
+        modelSelection: OMP_MODEL_SELECTION,
+        assertOutput: assertMultiTurnOutput,
+      },
+      {
         driver: ProviderDriverKind.make("acpRegistry"),
         transcriptFile: new URL("./multi_turn/registry_transcript.ndjson", import.meta.url),
         modelSelection: ACP_REGISTRY_MODEL_SELECTION,
@@ -1598,6 +1615,12 @@ export const ORCHESTRATOR_REPLAY_FIXTURES: ReadonlyArray<OrchestratorReplayFixtu
         assertOutput: assertTurnInterruptOutput,
       },
       {
+        driver: ProviderDriverKind.make("omp"),
+        transcriptFile: new URL("./turn_interrupt/omp_transcript.ndjson", import.meta.url),
+        modelSelection: OMP_MODEL_SELECTION,
+        assertOutput: assertTurnInterruptOutput,
+      },
+      {
         driver: ProviderDriverKind.make("acpRegistry"),
         transcriptFile: new URL("./turn_interrupt/registry_transcript.ndjson", import.meta.url),
         modelSelection: ACP_REGISTRY_MODEL_SELECTION,
@@ -1641,6 +1664,31 @@ export const ORCHESTRATOR_REPLAY_FIXTURES: ReadonlyArray<OrchestratorReplayFixtu
         transcriptFile: new URL("./fx_subagent/fx_transcript.ndjson", import.meta.url),
         modelSelection: FX_MODEL_SELECTION,
         assertOutput: assertFxSubagentOutput,
+      },
+    ],
+  },
+  {
+    name: "omp_approvals",
+    buildInput: ompApprovalsInput,
+    providers: [
+      {
+        driver: ProviderDriverKind.make("omp"),
+        transcriptFile: new URL("./omp_approvals/omp_transcript.ndjson", import.meta.url),
+        modelSelection: OMP_MODEL_SELECTION,
+        expectedAbsentWorkspacePaths: [OMP_DENIED_TARGET],
+        assertOutput: assertOmpApprovalsOutput,
+      },
+    ],
+  },
+  {
+    name: "omp_ask",
+    buildInput: ompAskInput,
+    providers: [
+      {
+        driver: ProviderDriverKind.make("omp"),
+        transcriptFile: new URL("./omp_ask/omp_transcript.ndjson", import.meta.url),
+        modelSelection: OMP_MODEL_SELECTION,
+        assertOutput: assertOmpAskOutput,
       },
     ],
   },
