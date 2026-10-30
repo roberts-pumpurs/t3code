@@ -33,6 +33,10 @@ runs in **Supervised**.
 T3 Code offers no **Auto-accept edits** or **Full access** for fx. An fx thread already set to either runs in
 **Supervised**.
 
+Oh My Pi offers no **Auto**. A thread already set to it runs in **Supervised**. Oh My Pi asks about
+file changes as a question with its own choices, and can still ask about restricted folders and
+critical commands in **Full access**.
+
 Grok offers no **Auto-accept edits**. A Grok thread already set to it runs in **Supervised**. Grok
 file-change approvals offer **Allow all edits this session**. Its command approvals have no
 session-wide choice, because Grok would remember that command for the whole project.
